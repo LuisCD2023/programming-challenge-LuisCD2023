@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+//
+import React from "react";
+import "./App.css";
+import { getLCP } from "web-vitals";
 
-function App() {
+//
+function FormatNumber({ number }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <span style={{ color: "red" }}>
+      {new Intl.NumberFormat("ES-MX", {
+        style: "currency",
+        currency: "MXN"
+      }).format(number)}
+    </span>
   );
+}
+
+//
+class App extends React.Component {
+  state = {
+    number: 0
+  };
+
+  handleChange = event => {
+    this.setState({
+      number: event.target.value > 999999999 ? 999999999 : event.target.value,
+    });
+  };
+
+  render() {
+    const { number } = this.state;
+    return (
+      <div className="App">
+        <h1>
+          LCD <FormatNumber number={number} />
+        </h1>
+        <input type="number" onChange={this.handleChange} />
+      </div>
+    );
+  }
 }
 
 export default App;
